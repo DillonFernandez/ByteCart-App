@@ -109,7 +109,10 @@ class _LoginPageState extends State<LoginPage> {
                       vertical: 28,
                     ),
                     decoration: BoxDecoration(
-                      color: colorScheme.surface,
+                      color:
+                          isDark
+                              ? const Color(0xFF121212)
+                              : colorScheme.surface,
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
                         BoxShadow(
@@ -143,7 +146,10 @@ class _LoginPageState extends State<LoginPage> {
                                   child: OutlinedButton(
                                     onPressed: () {},
                                     style: OutlinedButton.styleFrom(
-                                      backgroundColor: colorScheme.surface,
+                                      backgroundColor:
+                                          isDark
+                                              ? const Color(0xFF121212)
+                                              : colorScheme.surface,
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 14,
                                       ),

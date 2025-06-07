@@ -135,7 +135,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       vertical: 28,
                     ),
                     decoration: BoxDecoration(
-                      color: colorScheme.surface,
+                      color:
+                          isDark
+                              ? const Color(0xFF121212)
+                              : colorScheme.surface,
                       borderRadius: BorderRadius.circular(18),
                       boxShadow: [
                         BoxShadow(
@@ -169,7 +172,10 @@ class _RegisterPageState extends State<RegisterPage> {
                                   child: OutlinedButton(
                                     onPressed: () {},
                                     style: OutlinedButton.styleFrom(
-                                      backgroundColor: colorScheme.surface,
+                                      backgroundColor:
+                                          isDark
+                                              ? const Color(0xFF121212)
+                                              : colorScheme.surface,
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 14,
                                       ),
