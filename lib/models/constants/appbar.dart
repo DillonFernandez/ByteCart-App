@@ -29,7 +29,7 @@ class app_bar {
               isLight
                   ? [
                     const BoxShadow(
-                      color: Color.fromARGB(10, 0, 0, 0),
+                      color: Color.fromARGB(15, 0, 0, 0),
                       blurRadius: 4,
                       offset: Offset(0, 2),
                     ),
