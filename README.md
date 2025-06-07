@@ -1,22 +1,30 @@
 # ByteCart - E-Commerce Solution
 
-ByteCart is a web-based e-commerce platform designed to provide a seamless shopping experience for tech-savvy consumers. Offering a wide range of premium electronics, ByteCart aims to deliver the latest tech products at competitive prices, ensuring a user-friendly experience on both mobile and desktop platforms.
+ByteCart is a web-based e-commerce platform designed to provide a seamless shopping experience for
+tech-savvy consumers. Offering a wide range of premium electronics, ByteCart aims to deliver the
+latest tech products at competitive prices, ensuring a user-friendly experience on both mobile and
+desktop platforms.
 
 ## Overview
 
-ByteCart directly sells a variety of premium electronics, including phones, tablets, smartwatches, wireless headphones, gaming accessories, and other tech gadgets. ByteCart differentiates itself by providing:
+ByteCart directly sells a variety of premium electronics, including phones, tablets, smartwatches,
+wireless headphones, gaming accessories, and other tech gadgets. ByteCart differentiates itself by
+providing:
 
 - **A modern, sleek interface** appealing to digital-native consumers.
 - **Bundled product packages** to encourage larger purchases and improve profitability.
-- **Customer-centric features**, including personalized product recommendations and flexible return policies.
+- **Customer-centric features**, including personalized product recommendations and flexible return
+  policies.
 
-ByteCart operates on a **direct revenue model**, focusing solely on the sale of products without third-party listings or advertisements.
+ByteCart operates on a **direct revenue model**, focusing solely on the sale of products without
+third-party listings or advertisements.
 
 ## Features
 
 ### 1. **Product Catalog**
 
-- A wide selection of tech products, including phones, tablets, smartwatches, gaming accessories, and more.
+- A wide selection of tech products, including phones, tablets, smartwatches, gaming accessories,
+  and more.
 
 ### 2. **Secure Payment Processing**
 
@@ -35,7 +43,8 @@ ByteCart operates on a **direct revenue model**, focusing solely on the sale of 
 
 ### 5. **Cross-Platform Accessibility**
 
-- Fully responsive platform for both mobile and desktop devices, ensuring a consistent user experience.
+- Fully responsive platform for both mobile and desktop devices, ensuring a consistent user
+  experience.
 
 ### 6. **Scalable Infrastructure**
 
