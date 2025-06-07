@@ -39,7 +39,7 @@ class ProductPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: colorScheme.background,
+        color: colorScheme.surface,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           children: [

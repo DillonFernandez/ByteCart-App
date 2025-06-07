@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: app_bar.mainAppBar(context),
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           children: [

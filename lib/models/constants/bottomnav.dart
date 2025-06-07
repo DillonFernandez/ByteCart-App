@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class BottomNav extends StatefulWidget {
   final User user;
 
-  const BottomNav({Key? key, required this.user}) : super(key: key);
+  const BottomNav({super.key, required this.user});
 
   @override
   State<BottomNav> createState() => _BottomNavState();

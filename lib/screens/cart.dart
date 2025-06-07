@@ -155,7 +155,7 @@ class _CartPageState extends State<CartPage> {
         children: [
           // Main cart content
           Container(
-            color: Theme.of(context).colorScheme.background,
+            color: Theme.of(context).colorScheme.surface,
             child:
                 cartItems.isEmpty
                     // Empty cart message
@@ -270,7 +270,7 @@ class _CartPageState extends State<CartPage> {
                                       color:
                                           Theme.of(
                                             context,
-                                          ).colorScheme.surfaceVariant,
+                                          ).colorScheme.surfaceContainerHighest,
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
                                         color: const Color(
@@ -300,12 +300,13 @@ class _CartPageState extends State<CartPage> {
                                                   'Remove Product',
                                                   'Are you sure you want to remove this product from the cart?',
                                                 ).then((confirm) {
-                                                  if (confirm)
+                                                  if (confirm) {
                                                     setState(
                                                       () => cartItems.removeAt(
                                                         index,
                                                       ),
                                                     );
+                                                  }
                                                 });
                                               }
                                             });
@@ -384,8 +385,9 @@ class _CartPageState extends State<CartPage> {
                                       'Remove Product',
                                       'Are you sure you want to remove this product from the cart?',
                                     );
-                                    if (confirm)
+                                    if (confirm) {
                                       setState(() => cartItems.removeAt(index));
+                                    }
                                   },
                                 ),
                               ),

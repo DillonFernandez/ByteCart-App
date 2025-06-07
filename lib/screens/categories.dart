@@ -50,7 +50,7 @@ class CategoryPage extends StatelessWidget {
     return Scaffold(
       appBar: app_bar.mainAppBar(context),
       body: Container(
-        color: Theme.of(context).colorScheme.background,
+        color: Theme.of(context).colorScheme.surface,
         padding: const EdgeInsets.all(16.0),
         // Grid of category tiles
         child: GridView.count(

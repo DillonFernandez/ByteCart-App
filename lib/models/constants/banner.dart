@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BannerWidget extends StatelessWidget {
   final String imagePath;
 
-  const BannerWidget({Key? key, required this.imagePath}) : super(key: key);
+  const BannerWidget({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
