@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 /// AppBar section: Contains main app bar widget and helpers.
 class app_bar {
   static Color backgroundColor(BuildContext context) {
-    return Theme.of(context).colorScheme.surface;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    return isDark
+        ? const Color(0xFF121212)
+        : Theme.of(context).colorScheme.surface;
   }
 
   static Widget logo(BuildContext context) {
@@ -48,7 +51,10 @@ class app_bar {
                   height: 42,
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    color: colorScheme.surface,
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF121212)
+                            : colorScheme.surface,
                     borderRadius: BorderRadius.circular(12.0),
                     border: Border.all(
                       color: colorScheme.outline.withOpacity(0.5),

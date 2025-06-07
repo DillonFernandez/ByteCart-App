@@ -65,7 +65,7 @@ class _BottomNavState extends State<BottomNav> {
       body: pages[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
+          color: isDark ? const Color(0xFF121212) : theme.colorScheme.surface,
           boxShadow:
               !isDark
                   ? const [

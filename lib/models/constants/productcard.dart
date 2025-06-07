@@ -32,7 +32,10 @@ class ProductCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color:
+            isDark
+                ? const Color(0xFF121212)
+                : Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 10),
@@ -188,32 +191,36 @@ class ProductCard extends StatelessWidget {
                           showDialog(
                             context: context,
                             barrierDismissible: false,
-                            builder:
-                                (_) => AlertDialog(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  title: const Text('Success'),
-                                  content: Text('$productName added to cart.'),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed:
-                                          () => Navigator.of(context).pop(),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: const Color(
-                                          0xFF007BFF,
-                                        ),
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
-                                        ),
-                                      ),
-                                      child: const Text('OK'),
-                                    ),
-                                  ],
+                            builder: (_) {
+                              final isDark =
+                                  Theme.of(context).brightness ==
+                                  Brightness.dark;
+                              return AlertDialog(
+                                backgroundColor:
+                                    isDark
+                                        ? const Color(0xFF121212)
+                                        : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
+                                title: const Text('Success'),
+                                content: Text('$productName added to cart.'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed:
+                                        () => Navigator.of(context).pop(),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFF007BFF),
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
                         }
                         : null,

@@ -20,7 +20,10 @@ class ProductPage extends StatelessWidget {
         surfaceTintColor: colorScheme.surface,
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            color: colorScheme.surface,
+            color:
+                theme.brightness == Brightness.dark
+                    ? const Color(0xFF121212)
+                    : colorScheme.surface,
             boxShadow:
                 theme.brightness == Brightness.light
                     ? [

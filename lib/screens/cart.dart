@@ -12,10 +12,13 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   // Show confirmation dialog for actions like removing/clearing cart
   Future<bool> _showConfirmDialog(String title, String content) async {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return await showDialog<bool>(
           context: context,
           builder:
               (context) => AlertDialog(
+                backgroundColor:
+                    isDark ? const Color(0xFF121212) : Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -62,88 +65,88 @@ class _CartPageState extends State<CartPage> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
-      builder:
-          (_) => Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(16),
+      builder: (_) {
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        return Container(
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+          decoration: BoxDecoration(
+            color:
+                isDark
+                    ? const Color(0xFF121212)
+                    : Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            boxShadow: [
+              BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 10),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                'Cart Summary',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.15),
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text(
-                  'Cart Summary',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Total'),
-                    Text(
-                      'LKR. ${total.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                        fontSize: 16,
-                      ),
+              const SizedBox(height: 12),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Total'),
+                  Text(
+                    'LKR. ${total.toStringAsFixed(2)}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontSize: 16,
                     ),
-                  ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              // Proceed to checkout button
+              ElevatedButton(
+                onPressed: () => Navigator.pop(context),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF007BFF),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                 ),
-                const SizedBox(height: 20),
-                // Proceed to checkout button
-                ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Center(child: Text('Proceed to Checkout')),
+                ),
+              ),
+              const SizedBox(height: 10),
+              // Clear cart button
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton.icon(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    final confirm = await _showConfirmDialog(
+                      'Clear Cart',
+                      'Are you sure you want to clear the cart?',
+                    );
+                    if (confirm) setState(() => cartItems.clear());
+                  },
+                  icon: const Icon(Icons.delete),
+                  label: const Text('Clear Cart'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF007BFF),
+                    backgroundColor: Colors.red,
                     foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: const SizedBox(
-                    width: double.infinity,
-                    child: Center(child: Text('Proceed to Checkout')),
-                  ),
                 ),
-                const SizedBox(height: 10),
-                // Clear cart button
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () async {
-                      Navigator.pop(context);
-                      final confirm = await _showConfirmDialog(
-                        'Clear Cart',
-                        'Are you sure you want to clear the cart?',
-                      );
-                      if (confirm) setState(() => cartItems.clear());
-                    },
-                    icon: const Icon(Icons.delete),
-                    label: const Text('Clear Cart'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
+        );
+      },
     );
   }
 
@@ -178,10 +181,15 @@ class _CartPageState extends State<CartPage> {
                         final isOnSale =
                             item['salePercentage'] != null &&
                             item['salePercentage'] > 0;
+                        final isDark =
+                            Theme.of(context).brightness == Brightness.dark;
                         return Container(
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.surface,
+                            color:
+                                isDark
+                                    ? const Color(0xFF121212)
+                                    : Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
@@ -268,9 +276,11 @@ class _CartPageState extends State<CartPage> {
                                   Container(
                                     decoration: BoxDecoration(
                                       color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.surfaceContainerHighest,
+                                          isDark
+                                              ? const Color(0xFF121212)
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .surfaceContainerHighest,
                                       borderRadius: BorderRadius.circular(20),
                                       border: Border.all(
                                         color: const Color(
