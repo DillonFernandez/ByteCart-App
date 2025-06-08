@@ -163,65 +163,58 @@ class _CartPageState extends State<CartPage> {
           return Stack(
             key: _stackKey,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Container(
-                  color: Theme.of(context).colorScheme.surface,
-                  child: OrientationBuilder(
-                    builder: (context, orientation) {
-                      if (items.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            'Your cart is empty.',
-                            style: TextStyle(fontSize: 18),
+              Container(
+                color: Theme.of(context).colorScheme.surface,
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    if (items.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Your cart is empty.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
+                    }
+                    // Efficient List/Grid for Large Data
+                    return orientation == Orientation.portrait
+                        ? ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 16,
                           ),
+                          itemCount: items.length,
+                          separatorBuilder:
+                              (_, __) => const SizedBox(height: 10),
+                          itemBuilder: (_, index) {
+                            final item = items[index];
+                            final isOnSale =
+                                item['salePercentage'] != null &&
+                                item['salePercentage'] > 0;
+                            return _buildCartItem(item, index, isOnSale, items);
+                          },
+                        )
+                        : GridView.builder(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 16,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                          itemCount: items.length,
+                          itemBuilder: (_, index) {
+                            final item = items[index];
+                            final isOnSale =
+                                item['salePercentage'] != null &&
+                                item['salePercentage'] > 0;
+                            return _buildCartItem(item, index, isOnSale, items);
+                          },
                         );
-                      }
-                      // Efficient List/Grid for Large Data
-                      return orientation == Orientation.portrait
-                          ? ListView.separated(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            itemCount: items.length,
-                            separatorBuilder:
-                                (_, __) => const SizedBox(height: 10),
-                            itemBuilder: (_, index) {
-                              final item = items[index];
-                              final isOnSale =
-                                  item['salePercentage'] != null &&
-                                  item['salePercentage'] > 0;
-                              return _buildCartItem(
-                                item,
-                                index,
-                                isOnSale,
-                                items,
-                              );
-                            },
-                          )
-                          : GridView.builder(
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 3,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10,
-                                ),
-                            itemCount: items.length,
-                            itemBuilder: (_, index) {
-                              final item = items[index];
-                              final isOnSale =
-                                  item['salePercentage'] != null &&
-                                  item['salePercentage'] > 0;
-                              return _buildCartItem(
-                                item,
-                                index,
-                                isOnSale,
-                                items,
-                              );
-                            },
-                          );
-                    },
-                  ),
+                  },
                 ),
               ),
               if (items.isNotEmpty)
@@ -261,9 +254,9 @@ class _CartPageState extends State<CartPage> {
             isDark
                 ? const Color(0xFF121212)
                 : Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8),
+          BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 10),
         ],
       ),
       child: Stack(
@@ -273,14 +266,14 @@ class _CartPageState extends State<CartPage> {
             children: [
               // Optimized Image Loading
               ClipRRect(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
                   item['image'],
-                  width: 80,
-                  height: 80,
+                  width: 60,
+                  height: 60,
                   fit: BoxFit.cover,
-                  cacheWidth: 160,
-                  cacheHeight: 160,
+                  cacheWidth: 120,
+                  cacheHeight: 120,
                 ),
               ),
               const SizedBox(width: 12),
@@ -297,7 +290,7 @@ class _CartPageState extends State<CartPage> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4),
                     isOnSale
                         ? Wrap(
                           spacing: 6,
@@ -307,7 +300,7 @@ class _CartPageState extends State<CartPage> {
                               style: const TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 color: Colors.red,
-                                fontSize: 14,
+                                fontSize: 13,
                               ),
                             ),
                             Text(
