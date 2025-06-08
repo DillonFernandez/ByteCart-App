@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// AppBar section: Contains main app bar widget and helpers.
 class app_bar {
+  // Returns background color based on theme brightness
   static Color backgroundColor(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return isDark
@@ -9,10 +10,12 @@ class app_bar {
         : Theme.of(context).colorScheme.surface;
   }
 
+  // Returns the app logo widget (do not modify)
   static Widget logo(BuildContext context) {
     return Image.asset('assets/images/logo/Logo.webp', height: 35);
   }
 
+  // Main AppBar widget
   static PreferredSizeWidget mainAppBar(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
@@ -24,7 +27,6 @@ class app_bar {
         padding: const EdgeInsets.only(bottom: 5),
         decoration: BoxDecoration(
           color: backgroundColor(context),
-          // Bottom shadow in light mode
           boxShadow:
               isLight
                   ? [
@@ -52,7 +54,7 @@ class app_bar {
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).brightness == Brightness.dark
+                        theme.brightness == Brightness.dark
                             ? const Color(0xFF121212)
                             : colorScheme.surface,
                     borderRadius: BorderRadius.circular(12.0),
@@ -69,6 +71,7 @@ class app_bar {
                         color: colorScheme.onSurface,
                       ),
                       const SizedBox(width: 8),
+                      // Search TextField
                       Expanded(
                         child: TextField(
                           style: TextStyle(

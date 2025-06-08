@@ -5,6 +5,7 @@ import 'package:bytecart/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+// Account Page Main Widget
 class AccountPage extends StatelessWidget {
   final User user;
   const AccountPage({super.key, required this.user});
@@ -17,67 +18,17 @@ class AccountPage extends StatelessWidget {
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isLandscape = constraints.maxWidth > constraints.maxHeight;
-          // LANDSCAPE LAYOUT
+          // Landscape Layout
           if (isLandscape) {
             return Row(
               children: [
                 // User Profile Section
                 Padding(
                   padding: const EdgeInsets.only(left: 16, right: 8),
-                  child: Container(
-                    width: 320,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      color:
-                          isDark
-                              ? const Color(0xFF121212)
-                              : Theme.of(context).colorScheme.surface,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const CircleAvatar(
-                            radius: 28,
-                            backgroundColor: Color(0xFF007BFF),
-                            child: Icon(
-                              Icons.person,
-                              size: 28,
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            user.fullName,
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            user.email,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: isDark ? Colors.white70 : Colors.black54,
-                            ),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
+                  child: _ProfileCard(
+                    user: user,
+                    isDark: isDark,
+                    isLandscape: true,
                   ),
                 ),
                 // Account Content Section (Scrollable)
@@ -86,8 +37,8 @@ class AccountPage extends StatelessWidget {
                     color: Theme.of(context).colorScheme.surface,
                     child: ListView(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 24.0,
+                        horizontal: 16,
+                        vertical: 24,
                       ),
                       children: _buildAccountContent(context, isDark),
                     ),
@@ -96,63 +47,13 @@ class AccountPage extends StatelessWidget {
               ],
             );
           }
-          // PORTRAIT LAYOUT
+          // Portrait Layout
           return Container(
             color: Theme.of(context).colorScheme.surface,
             child: ListView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-                vertical: 16.0,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               children: [
-                // User Profile Section
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 16,
-                  ),
-                  decoration: BoxDecoration(
-                    color:
-                        isDark
-                            ? const Color(0xFF121212)
-                            : Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 10,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      const CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Color(0xFF007BFF),
-                        child: Icon(
-                          Icons.person,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.fullName,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(user.email),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                _ProfileCard(user: user, isDark: isDark, isLandscape: false),
                 const SizedBox(height: 30),
                 ..._buildAccountContent(context, isDark),
               ],
@@ -166,7 +67,7 @@ class AccountPage extends StatelessWidget {
   // Account Content Section
   List<Widget> _buildAccountContent(BuildContext context, bool isDark) {
     return [
-      // Account Info
+      // Account Info Section
       const Text(
         'Update your info to keep your account',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -184,7 +85,7 @@ class AccountPage extends StatelessWidget {
         color: Colors.teal,
       ),
       const SizedBox(height: 30),
-      // Preferences
+      // Preferences Section
       const Text(
         'Preferences',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -196,7 +97,6 @@ class AccountPage extends StatelessWidget {
         color: Colors.orange,
       ),
       const SizedBox(height: 16),
-      // Theme Toggle
       accountSettings(
         icon: isDark ? Icons.nightlight_round : Icons.wb_sunny,
         title: isDark ? 'Change to Light Mode' : 'Change to Dark Mode',
@@ -209,7 +109,7 @@ class AccountPage extends StatelessWidget {
                 ).toggleTheme(),
       ),
       const SizedBox(height: 30),
-      // More Information
+      // More Information Section
       const Text(
         'More Information',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -233,13 +133,12 @@ class AccountPage extends StatelessWidget {
         color: Colors.green,
       ),
       const SizedBox(height: 30),
-      // Account Actions
+      // Account Actions Section
       const Text(
         'Account Actions',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       const SizedBox(height: 10),
-      // Logout Button
       accountSettings(
         icon: Icons.logout,
         title: 'Logout',
@@ -351,6 +250,109 @@ class AccountPage extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+// User Profile Card Widget (Stateless, for both orientations)
+class _ProfileCard extends StatelessWidget {
+  final User user;
+  final bool isDark;
+  final bool isLandscape;
+  const _ProfileCard({
+    required this.user,
+    required this.isDark,
+    required this.isLandscape,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLandscape) {
+      return Container(
+        width: 320,
+        height: 180,
+        decoration: BoxDecoration(
+          color:
+              isDark
+                  ? const Color(0xFF121212)
+                  : Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
+          ],
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircleAvatar(
+                radius: 28,
+                backgroundColor: Color(0xFF007BFF),
+                child: Icon(Icons.person, size: 28, color: Colors.white),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                user.fullName,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              const SizedBox(height: 4),
+              Text(
+                user.email,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isDark ? Colors.white70 : Colors.black54,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      decoration: BoxDecoration(
+        color:
+            isDark
+                ? const Color(0xFF121212)
+                : Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
+        ],
+      ),
+      child: Row(
+        children: [
+          const CircleAvatar(
+            radius: 40,
+            backgroundColor: Color(0xFF007BFF),
+            child: Icon(Icons.person, size: 40, color: Colors.white),
+          ),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                user.fullName,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(user.email),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

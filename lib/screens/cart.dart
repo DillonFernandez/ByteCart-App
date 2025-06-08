@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:bytecart/models/constants/appbar.dart';
 import 'package:bytecart/models/constants/productcard.dart';
 
+// Cart Page Main Widget
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -12,6 +13,7 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final GlobalKey _stackKey = GlobalKey();
 
+  // Confirmation Dialog
   Future<bool> _showConfirmDialog(String title, String content) async {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return await showDialog<bool>(
@@ -54,8 +56,9 @@ class _CartPageState extends State<CartPage> {
         false;
   }
 
-  void _showCartSummaryPopup() {
-    double total = cartItems.fold(
+  // Cart Summary Bottom Sheet
+  void _showCartSummaryPopup(List<Map<String, dynamic>> items) {
+    final total = items.fold<double>(
       0.0,
       (sum, item) => sum + item['discountedPrice'] * item['quantity'],
     );
@@ -123,11 +126,12 @@ class _CartPageState extends State<CartPage> {
                 child: ElevatedButton.icon(
                   onPressed: () async {
                     Navigator.pop(context);
-                    final confirm = await _showConfirmDialog(
+                    if (await _showConfirmDialog(
                       'Clear Cart',
                       'Are you sure you want to clear the cart?',
-                    );
-                    if (confirm) setState(() => cartItems.clear());
+                    )) {
+                      cartItems.value = [];
+                    }
                   },
                   icon: const Icon(Icons.delete),
                   label: const Text('Clear Cart'),
@@ -148,87 +152,100 @@ class _CartPageState extends State<CartPage> {
     );
   }
 
+  // Main Build Method
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: app_bar.mainAppBar(context),
-      body: Stack(
-        key: _stackKey,
-        children: [
-          // Main cart content
-          Container(
-            color: Theme.of(context).colorScheme.surface,
-            child: OrientationBuilder(
-              builder: (context, orientation) {
-                return cartItems.isEmpty
-                    ? const Center(
-                      child: Text(
-                        'Your cart is empty.',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    )
-                    : orientation == Orientation.portrait
-                    ? ListView.separated(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
-                      ),
-                      itemCount: cartItems.length,
-                      separatorBuilder: (_, __) => const SizedBox(height: 10),
-                      itemBuilder: (_, index) {
-                        final item = cartItems[index];
-                        final isOnSale =
-                            item['salePercentage'] != null &&
-                            item['salePercentage'] > 0;
-                        return _buildCartItem(item, index, isOnSale);
-                      },
-                    )
-                    : GridView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 10,
-                      ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
+      body: ValueListenableBuilder<List<Map<String, dynamic>>>(
+        valueListenable: cartItems,
+        builder: (context, items, _) {
+          return Stack(
+            key: _stackKey,
+            children: [
+              Container(
+                color: Theme.of(context).colorScheme.surface,
+                child: OrientationBuilder(
+                  builder: (context, orientation) {
+                    if (items.isEmpty) {
+                      return const Center(
+                        child: Text(
+                          'Your cart is empty.',
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      );
+                    }
+                    // Efficient List/Grid for Large Data
+                    return orientation == Orientation.portrait
+                        ? ListView.separated(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
                           ),
-                      itemCount: cartItems.length,
-                      itemBuilder: (_, index) {
-                        final item = cartItems[index];
-                        final isOnSale =
-                            item['salePercentage'] != null &&
-                            item['salePercentage'] > 0;
-                        return _buildCartItem(item, index, isOnSale);
-                      },
-                    );
-              },
-            ),
-          ),
-          // Floating cart summary button (now static)
-          if (cartItems.isNotEmpty)
-            Positioned(
-              right: 20,
-              bottom: 20,
-              child: FloatingActionButton.extended(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-                onPressed: _showCartSummaryPopup,
-                icon: const Icon(Icons.shopping_cart_checkout),
-                label: const Text('Cart Summary'),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                          itemCount: items.length,
+                          separatorBuilder:
+                              (_, __) => const SizedBox(height: 10),
+                          itemBuilder: (_, index) {
+                            final item = items[index];
+                            final isOnSale =
+                                item['salePercentage'] != null &&
+                                item['salePercentage'] > 0;
+                            return _buildCartItem(item, index, isOnSale, items);
+                          },
+                        )
+                        : GridView.builder(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 10,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                          itemCount: items.length,
+                          itemBuilder: (_, index) {
+                            final item = items[index];
+                            final isOnSale =
+                                item['salePercentage'] != null &&
+                                item['salePercentage'] > 0;
+                            return _buildCartItem(item, index, isOnSale, items);
+                          },
+                        );
+                  },
                 ),
               ),
-            ),
-        ],
+              if (items.isNotEmpty)
+                Positioned(
+                  right: 20,
+                  bottom: 20,
+                  child: FloatingActionButton.extended(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    onPressed: () => _showCartSummaryPopup(items),
+                    icon: const Icon(Icons.shopping_cart_checkout),
+                    label: const Text('Cart Summary'),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _buildCartItem(Map<String, dynamic> item, int index, bool isOnSale) {
+  // Cart Item Card
+  Widget _buildCartItem(
+    Map<String, dynamic> item,
+    int index,
+    bool isOnSale,
+    List<Map<String, dynamic>> items,
+  ) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       padding: const EdgeInsets.all(12),
@@ -247,6 +264,7 @@ class _CartPageState extends State<CartPage> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Optimized Image Loading
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.asset(
@@ -254,6 +272,8 @@ class _CartPageState extends State<CartPage> {
                   width: 60,
                   height: 60,
                   fit: BoxFit.cover,
+                  cacheWidth: 120,
+                  cacheHeight: 120,
                 ),
               ),
               const SizedBox(width: 12),
@@ -306,6 +326,7 @@ class _CartPageState extends State<CartPage> {
                 ),
               ),
               const SizedBox(width: 12),
+              // Quantity Controls
               Container(
                 decoration: BoxDecoration(
                   color:
@@ -326,21 +347,27 @@ class _CartPageState extends State<CartPage> {
                   children: [
                     InkWell(
                       borderRadius: BorderRadius.circular(16),
-                      onTap: () {
-                        setState(() {
-                          if (item['quantity'] > 1) {
-                            item['quantity']--;
-                          } else {
-                            _showConfirmDialog(
-                              'Remove Product',
-                              'Are you sure you want to remove this product from the cart?',
-                            ).then((confirm) {
-                              if (confirm) {
-                                setState(() => cartItems.removeAt(index));
-                              }
-                            });
+                      onTap: () async {
+                        if (item['quantity'] > 1) {
+                          final newItems = List<Map<String, dynamic>>.from(
+                            items,
+                          );
+                          newItems[index] = Map<String, dynamic>.from(
+                            newItems[index],
+                          );
+                          newItems[index]['quantity']--;
+                          cartItems.value = newItems;
+                        } else {
+                          if (await _showConfirmDialog(
+                            'Remove Product',
+                            'Are you sure you want to remove this product from the cart?',
+                          )) {
+                            final newItems = List<Map<String, dynamic>>.from(
+                              items,
+                            )..removeAt(index);
+                            cartItems.value = newItems;
                           }
-                        });
+                        }
                       },
                       child: Container(
                         decoration: BoxDecoration(
@@ -368,7 +395,14 @@ class _CartPageState extends State<CartPage> {
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(16),
-                      onTap: () => setState(() => item['quantity']++),
+                      onTap: () {
+                        final newItems = List<Map<String, dynamic>>.from(items);
+                        newItems[index] = Map<String, dynamic>.from(
+                          newItems[index],
+                        );
+                        newItems[index]['quantity']++;
+                        cartItems.value = newItems;
+                      },
                       child: Container(
                         decoration: BoxDecoration(
                           color: const Color(0xFF007BFF).withOpacity(0.08),
@@ -387,17 +421,21 @@ class _CartPageState extends State<CartPage> {
               ),
             ],
           ),
+          // Remove Item Button
           Positioned(
             bottom: -8,
             right: -8,
             child: IconButton(
               icon: const Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
-                final confirm = await _showConfirmDialog(
+                if (await _showConfirmDialog(
                   'Remove Product',
                   'Are you sure you want to remove this product from the cart?',
-                );
-                if (confirm) setState(() => cartItems.removeAt(index));
+                )) {
+                  final newItems = List<Map<String, dynamic>>.from(items)
+                    ..removeAt(index);
+                  cartItems.value = newItems;
+                }
               },
             ),
           ),

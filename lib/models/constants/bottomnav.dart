@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class BottomNav extends StatefulWidget {
   final User user;
-
   const BottomNav({super.key, required this.user});
 
   @override
@@ -17,52 +16,49 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _selectedIndex = 0;
 
+  // Navigation icons and labels
+  static const _icons = [
+    Icons.home,
+    Icons.shopping_bag,
+    Icons.shopping_cart,
+    Icons.person,
+  ];
+  static const _labels = ['Home', 'Categories', 'Cart', 'Account'];
+
+  // Pages for each tab
+  late final List<Widget> _pages = [
+    HomePage(user: widget.user),
+    const CategoryPage(),
+    const CartPage(),
+    AccountPage(user: widget.user),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    // Theme and color setup
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final selectedColor = const Color(0xFF007BFF);
     final unselectedColor = isDark ? Colors.white : const Color(0xFF0D1117);
 
-    // Bottom navigation icons and labels
-    const icons = [
-      Icons.home,
-      Icons.shopping_bag,
-      Icons.shopping_cart,
-      Icons.person,
-    ];
-    const labels = <String>['Home', 'Categories', 'Cart', 'Account'];
-
-    // Build NavigationDestination list for NavigationBar
-    final destinations = <NavigationDestination>[];
-    for (var i = 0; i < icons.length; i++) {
-      destinations.add(
-        NavigationDestination(
-          icon: Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: Icon(icons[i], color: unselectedColor),
-          ),
-          selectedIcon: Padding(
-            padding: const EdgeInsets.only(bottom: 4.0),
-            child: Icon(icons[i], color: selectedColor),
-          ),
-          label: labels[i],
+    // Navigation destinations
+    final destinations = List.generate(
+      _icons.length,
+      (i) => NavigationDestination(
+        icon: Padding(
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: Icon(_icons[i], color: unselectedColor),
         ),
-      );
-    }
-
-    // Pages for each navigation tab
-    final List<Widget> pages = [
-      HomePage(user: widget.user),
-      const CategoryPage(),
-      const CartPage(),
-      AccountPage(user: widget.user),
-    ];
+        selectedIcon: Padding(
+          padding: const EdgeInsets.only(bottom: 4.0),
+          child: Icon(_icons[i], color: selectedColor),
+        ),
+        label: _labels[i],
+      ),
+    );
 
     // Main scaffold with navigation bar
     return Scaffold(
-      body: pages[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF121212) : theme.colorScheme.surface,
@@ -80,11 +76,8 @@ class _BottomNavState extends State<BottomNav> {
         child: NavigationBar(
           backgroundColor: Colors.transparent,
           selectedIndex: _selectedIndex,
-          onDestinationSelected: (index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
+          onDestinationSelected:
+              (index) => setState(() => _selectedIndex = index),
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           destinations: destinations,
         ),

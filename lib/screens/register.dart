@@ -14,18 +14,18 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   // Controllers for input fields
-  final _fullNameController = TextEditingController(),
-      _emailController = TextEditingController(),
-      _passwordController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String? _error, _success;
   bool _obscurePassword = true;
 
   // Registration logic
   void _register() {
-    final fullName = _fullNameController.text.trim(),
-        email = _emailController.text.trim(),
-        password = _passwordController.text;
+    final fullName = _fullNameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text;
     if (fullName.isEmpty || email.isEmpty || password.isEmpty) {
       setState(() {
         _error = 'All fields are required';
@@ -88,16 +88,29 @@ class _RegisterPageState extends State<RegisterPage> {
   );
 
   @override
+  void dispose() {
+    // Dispose controllers to free memory
+    _fullNameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final size = MediaQuery.of(context).size;
 
-    // Logo/header widget
+    // Logo/header section
     final logoHeader = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Image.asset('assets/images/logo/Logo L-R.webp', height: 55),
+        Image.asset(
+          'assets/images/logo/Logo L-R.webp',
+          height: 55,
+          cacheHeight: 110, // Optimize image memory usage
+        ),
         const SizedBox(height: 24),
         const Text(
           'Sign up for an Account',
@@ -115,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
       ],
     );
 
-    // Registration form widget
+    // Registration form section
     final registerForm = Container(
       width: size.width > size.height ? 400 : double.infinity,
       margin: EdgeInsets.symmetric(
@@ -141,35 +154,35 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           // Social sign up buttons
           Row(
-            children: [
-              for (final asset in [
+            children: List.generate(3, (i) {
+              final assets = [
                 'assets/images/icons/Google.svg',
                 'assets/images/icons/Facebook.svg',
                 isDark
                     ? 'assets/images/icons/Apple Dark.svg'
                     : 'assets/images/icons/Apple Light.svg',
-              ])
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor:
-                            isDark
-                                ? const Color(0xFF121212)
-                                : colorScheme.surface,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        side: const BorderSide(color: Colors.grey),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
+              ];
+              return Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor:
+                          isDark
+                              ? const Color(0xFF121212)
+                              : colorScheme.surface,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      side: const BorderSide(color: Colors.grey),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: SvgPicture.asset(asset, height: 28, width: 28),
                     ),
+                    child: SvgPicture.asset(assets[i], height: 28, width: 28),
                   ),
                 ),
-            ],
+              );
+            }),
           ),
           const SizedBox(height: 20),
           // Divider with "Or sign up with"
@@ -226,7 +239,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
-          // Error message
           if (_error != null) ...[
             const SizedBox(height: 12),
             Text(
@@ -234,7 +246,6 @@ class _RegisterPageState extends State<RegisterPage> {
               style: const TextStyle(color: Colors.red, fontSize: 14),
             ),
           ],
-          // Success message
           if (_success != null) ...[
             const SizedBox(height: 12),
             Text(
@@ -294,15 +305,16 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
 
+    // Main layout
     return Scaffold(
       backgroundColor: colorScheme.surface,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isLandscape = constraints.maxWidth > constraints.maxHeight;
           if (isLandscape) {
+            // Landscape: left logo, right form
             return Row(
               children: [
-                // Left: Blue background with logo/header centered
                 SizedBox(
                   width: size.width * 0.45,
                   height: size.height,
@@ -311,7 +323,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Center(child: logoHeader),
                   ),
                 ),
-                // Right: Scrollable register form, vertically centered if possible
                 SizedBox(
                   width: size.width * 0.55,
                   height: size.height,
@@ -331,10 +342,9 @@ class _RegisterPageState extends State<RegisterPage> {
               ],
             );
           } else {
-            // Portrait: keep current layout
+            // Portrait: top logo, below form
             return Stack(
               children: [
-                // Top blue background section
                 Container(
                   height: size.height * 0.45,
                   width: double.infinity,

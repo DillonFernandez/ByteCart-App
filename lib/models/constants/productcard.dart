@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-List<Map<String, dynamic>> cartItems = [];
+// Cart state using ValueNotifier
+ValueNotifier<List<Map<String, dynamic>>> cartItems = ValueNotifier([]);
 
 class ProductCard extends StatelessWidget {
   final bool? newStock;
@@ -24,7 +25,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate discounted price if sale is available
+    // Price calculation
     final discountedPrice =
         (salePercentage ?? 0) > 0 ? price * (1 - salePercentage! / 100) : price;
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -46,16 +47,20 @@ class ProductCard extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Product image and badges section
+              // Product image and badges
               Expanded(
                 child: Stack(
                   children: [
+                    // Product image with cache for performance
                     ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Image.asset(
                         imagePath,
                         fit: BoxFit.cover,
                         width: double.infinity,
+                        cacheWidth: 400,
+                        cacheHeight: 400,
+                        filterQuality: FilterQuality.medium,
                       ),
                     ),
                     // Stock and sale badges
@@ -65,7 +70,6 @@ class ProductCard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Show stock warning or out of stock
                           if (!isInStock || availableStock < 5)
                             Container(
                               padding: const EdgeInsets.symmetric(
@@ -86,7 +90,6 @@ class ProductCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          // Show sale percentage badge
                           if ((salePercentage ?? 0) > 0)
                             Container(
                               margin: const EdgeInsets.only(top: 4),
@@ -109,7 +112,7 @@ class ProductCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Show "New" badge if applicable
+                    // "New" badge
                     if (newStock == true)
                       Positioned(
                         top: 8,
@@ -173,23 +176,35 @@ class ProductCard extends StatelessWidget {
                     onPressed:
                         isInStock
                             ? () {
-                              // Add product to cart or increase quantity if already present
-                              final index = cartItems.indexWhere(
+                              // Add or update cart item
+                              final index = cartItems.value.indexWhere(
                                 (item) => item['name'] == productName,
                               );
                               if (index != -1) {
-                                cartItems[index]['quantity'] += 1;
+                                final newItems =
+                                    List<Map<String, dynamic>>.from(
+                                      cartItems.value,
+                                    );
+                                newItems[index] = Map<String, dynamic>.from(
+                                  newItems[index],
+                                );
+                                newItems[index]['quantity'] =
+                                    newItems[index]['quantity'] + 1;
+                                cartItems.value = newItems;
                               } else {
-                                cartItems.add({
-                                  'name': productName,
-                                  'price': price,
-                                  'discountedPrice': discountedPrice,
-                                  'salePercentage': salePercentage,
-                                  'image': imagePath,
-                                  'quantity': 1,
-                                });
+                                cartItems.value = [
+                                  ...cartItems.value,
+                                  {
+                                    'name': productName,
+                                    'price': price,
+                                    'discountedPrice': discountedPrice,
+                                    'salePercentage': salePercentage,
+                                    'image': imagePath,
+                                    'quantity': 1,
+                                  },
+                                ];
                               }
-                              // Show confirmation dialog
+                              // Confirmation dialog
                               showDialog(
                                 context: context,
                                 barrierDismissible: false,

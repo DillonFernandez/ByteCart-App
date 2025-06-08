@@ -73,12 +73,11 @@ class ProductPage extends StatelessWidget {
               builder: (context, constraints) {
                 final isLandscape =
                     MediaQuery.of(context).orientation == Orientation.landscape;
-                // Use more columns in landscape
                 final crossAxisCount = isLandscape ? 4 : 2;
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.only(top: 0),
+                  padding: EdgeInsets.zero,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,
                     crossAxisSpacing: 16,
@@ -88,6 +87,7 @@ class ProductPage extends StatelessWidget {
                   itemCount: productList.length,
                   itemBuilder: (context, index) {
                     final product = productList[index];
+                    // Product Card with optimized image loading
                     return ProductCard(
                       newStock: product.newStock,
                       imagePath: product.imagePath,
