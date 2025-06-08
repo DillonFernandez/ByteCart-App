@@ -335,8 +335,9 @@ class _CartPageState extends State<CartPage> {
                               'Remove Product',
                               'Are you sure you want to remove this product from the cart?',
                             ).then((confirm) {
-                              if (confirm)
+                              if (confirm) {
                                 setState(() => cartItems.removeAt(index));
+                              }
                             });
                           }
                         });
