@@ -48,18 +48,23 @@ class _LoginPageState extends State<LoginPage> {
     prefixIcon: Icon(icon, color: Theme.of(context).hintColor),
     suffixIcon: suffixIcon,
     border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: const BorderSide(color: Colors.grey),
+      borderRadius: BorderRadius.circular(12), // Slightly rounded
+      borderSide: BorderSide(
+        color: Colors.grey.withOpacity(0.4), // Soft border color
+      ),
     ),
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: const BorderSide(color: Colors.grey),
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Colors.grey.withOpacity(0.4)),
     ),
     focusedBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(8),
-      borderSide: const BorderSide(color: Colors.grey, width: 2),
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(
+        color: const Color(0xFF007BFF), // Focus color match with button
+        width: 2,
+      ),
     ),
-    contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+    contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
   );
 
   @override
@@ -81,45 +86,45 @@ class _LoginPageState extends State<LoginPage> {
       children: [
         Image.asset(
           'assets/images/logo/Logo L-R.webp',
-          height: 55,
-          cacheHeight: 110, // Optimize image memory usage
+          height: 60,
+          cacheHeight: 120,
           filterQuality: FilterQuality.medium,
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 28),
         const Text(
           'Login to your Account',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 24,
+            fontSize: 26,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         const Text(
           'Enter your email and password to log in',
-          style: TextStyle(color: Colors.white70, fontSize: 14),
+          style: TextStyle(color: Colors.white70, fontSize: 16),
         ),
       ],
     );
 
     // Login form section
     final loginForm = Container(
-      width: size.width > size.height ? 400 : double.infinity,
+      width: size.width > size.height ? 420 : double.infinity,
       margin: EdgeInsets.symmetric(
-        horizontal: size.width > size.height ? 0 : 18,
+        horizontal: size.width > size.height ? 0 : 20,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 28),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
       decoration: BoxDecoration(
         color: isDark ? const Color(0xFF121212) : colorScheme.surface,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color:
                 isDark
-                    ? Colors.black.withOpacity(0.2)
+                    ? Colors.black.withOpacity(0.3)
                     : Colors.black.withOpacity(0.05),
-            blurRadius: 16,
-            offset: const Offset(0, 8),
+            blurRadius: 20,
+            offset: const Offset(0, 10),
           ),
         ],
       ),
@@ -138,7 +143,7 @@ class _LoginPageState extends State<LoginPage> {
               ])
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
                     child: OutlinedButton(
                       onPressed: () {},
                       style: OutlinedButton.styleFrom(
@@ -149,13 +154,13 @@ class _LoginPageState extends State<LoginPage> {
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         side: const BorderSide(color: Colors.grey),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: SvgPicture.asset(
                         asset,
-                        height: 28,
-                        width: 28,
+                        height: 30,
+                        width: 30,
                         fit: BoxFit.contain,
                         cacheColorFilter: true,
                       ),
@@ -164,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 24),
           // Divider with "Or login with"
           Row(
             children: [
@@ -175,7 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Or login with',
                   style: TextStyle(
                     color: Theme.of(context).hintColor,
-                    fontSize: 14,
+                    fontSize: 16,
                   ),
                 ),
               ),
@@ -194,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
               icon: Icons.email_outlined,
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 18),
           // Password input
           TextField(
             controller: _passwordController,
@@ -215,13 +220,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           if (_error != null) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Text(
               _error!,
               style: const TextStyle(color: Colors.red, fontSize: 14),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: 18),
           // Remember me and forgot password
           Row(
             children: [
@@ -240,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                 'Remember me',
                 style: TextStyle(
                   color: Theme.of(context).hintColor,
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
               ),
               const Spacer(),
@@ -250,14 +255,14 @@ class _LoginPageState extends State<LoginPage> {
                   'Forgot Password ?',
                   style: TextStyle(
                     color: Color(0xFF007BFF),
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 24),
           // Login button
           SizedBox(
             width: double.infinity,
@@ -267,20 +272,21 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: const Color(0xFF007BFF),
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
                 ),
+                elevation: 6, // Subtle elevation for button
               ),
               child: const Text(
                 'Log In',
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
           // Sign up navigation
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -289,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Don't have an account? ",
                 style: TextStyle(
                   color: Theme.of(context).hintColor,
-                  fontSize: 14,
+                  fontSize: 16,
                 ),
               ),
               GestureDetector(
@@ -302,7 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                   'Sign Up',
                   style: TextStyle(
                     color: Color(0xFF007BFF),
-                    fontSize: 14,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
