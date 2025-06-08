@@ -316,7 +316,7 @@ class _RegisterPageState extends State<RegisterPage> {
             return Row(
               children: [
                 SizedBox(
-                  width: size.width * 0.45,
+                  width: size.width * 0.5,
                   height: size.height,
                   child: Container(
                     color: const Color(0xFF007BFF),
@@ -324,7 +324,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 SizedBox(
-                  width: size.width * 0.55,
+                  width: size.width * 0.5,
                   height: size.height,
                   child: Center(
                     child: SingleChildScrollView(
@@ -346,7 +346,7 @@ class _RegisterPageState extends State<RegisterPage> {
             return Stack(
               children: [
                 Container(
-                  height: size.height * 0.45,
+                  height: size.height * 0.5,
                   width: double.infinity,
                   color: const Color(0xFF007BFF),
                 ),

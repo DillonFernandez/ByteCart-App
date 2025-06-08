@@ -245,20 +245,31 @@ class AccountPage extends StatelessWidget {
                 onTap: onTap,
                 child: SizedBox(
                   height: 60,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 20,
-                      backgroundColor: color.withOpacity(0.2),
-                      child: Icon(icon, color: color, size: 24),
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const SizedBox(width: 12),
+                        CircleAvatar(
+                          radius: 20,
+                          backgroundColor: color.withOpacity(0.2),
+                          child: Icon(icon, color: color, size: 24),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const Icon(Icons.arrow_forward_ios, size: 18),
+                        const SizedBox(width: 12),
+                      ],
                     ),
-                    title: Text(
-                      title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                   ),
                 ),
               ),
