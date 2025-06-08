@@ -52,28 +52,39 @@ class CategoryPage extends StatelessWidget {
       body: Container(
         color: Theme.of(context).colorScheme.surface,
         padding: const EdgeInsets.all(16.0),
-        // Grid of category tiles
-        child: GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 1.17,
-          children:
-              categories.map((cat) {
-                return categoryTile(
-                  icon: cat['icon'] as IconData,
-                  title: cat['title'] as String,
-                  color: cat['color'] as Color,
-                  onTap:
-                      () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (_) => ProductPage(title: cat['title'] as String),
-                        ),
-                      ),
-                );
-              }).toList(),
+        child: OrientationBuilder(
+          builder: (context, orientation) {
+            // Adjust grid based on orientation
+            int crossAxisCount =
+                orientation == Orientation.portrait
+                    ? 2
+                    : 4; // 2 columns in portrait, 4 columns in landscape
+
+            return GridView.count(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+              childAspectRatio: 1.17,
+              children:
+                  categories.map((cat) {
+                    return categoryTile(
+                      icon: cat['icon'] as IconData,
+                      title: cat['title'] as String,
+                      color: cat['color'] as Color,
+                      onTap:
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (_) => ProductPage(
+                                    title: cat['title'] as String,
+                                  ),
+                            ),
+                          ),
+                    );
+                  }).toList(),
+            );
+          },
         ),
       ),
     );

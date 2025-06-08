@@ -27,11 +27,11 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
           children: [
             // Category Circles Section
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                final categories = [
                   categoryCircles(
                     context,
                     Icons.phone_iphone,
@@ -80,66 +80,116 @@ class HomePage extends StatelessWidget {
                     Colors.pinkAccent,
                     'Wearable Tech',
                   ),
-                ],
-              ),
+                ];
+                if (isLandscape) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: categories,
+                  );
+                } else {
+                  return SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: categories,
+                    ),
+                  );
+                }
+              },
             ),
             const SizedBox(height: 16),
             // Top Banner Section
-            const BannerWidget(imagePath: 'assets/images/banner/Banner 1.webp'),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                return AspectRatio(
+                  aspectRatio: isLandscape ? 4.5 : 2.5,
+                  child: const BannerWidget(
+                    imagePath: 'assets/images/banner/Banner 1.webp',
+                  ),
+                );
+              },
+            ),
             // New Stock Products Grid Section
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.only(top: 16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: newStockProducts.length,
-              itemBuilder: (context, index) {
-                final product = newStockProducts[index];
-                return ProductCard(
-                  newStock: product.newStock,
-                  imagePath: product.imagePath,
-                  productName: product.productName,
-                  price: product.price,
-                  isInStock: product.isInStock,
-                  availableStock: product.availableStock,
-                  salePercentage: product.salePercentage,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                final crossAxisCount = isLandscape ? 4 : 2;
+                final aspectRatio = isLandscape ? 0.85 : 0.75;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 16),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: aspectRatio,
+                  ),
+                  itemCount: newStockProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = newStockProducts[index];
+                    return ProductCard(
+                      newStock: product.newStock,
+                      imagePath: product.imagePath,
+                      productName: product.productName,
+                      price: product.price,
+                      isInStock: product.isInStock,
+                      availableStock: product.availableStock,
+                      salePercentage: product.salePercentage,
+                    );
+                  },
                 );
               },
             ),
             // Middle Banner Section
-            const Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child: BannerWidget(
-                imagePath: 'assets/images/banner/Banner 2.webp',
-              ),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                return Padding(
+                  padding: const EdgeInsets.only(top: 30.0),
+                  child: AspectRatio(
+                    aspectRatio: isLandscape ? 4.5 : 2.5,
+                    child: const BannerWidget(
+                      imagePath: 'assets/images/banner/Banner 2.webp',
+                    ),
+                  ),
+                );
+              },
             ),
             // On Sale Products Grid Section
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.only(top: 16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: onSaleProducts.length,
-              itemBuilder: (context, index) {
-                final product = onSaleProducts[index];
-                return ProductCard(
-                  newStock: product.newStock,
-                  imagePath: product.imagePath,
-                  productName: product.productName,
-                  price: product.price,
-                  isInStock: product.isInStock,
-                  availableStock: product.availableStock,
-                  salePercentage: product.salePercentage,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                final crossAxisCount = isLandscape ? 4 : 2;
+                final aspectRatio = isLandscape ? 0.85 : 0.75;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 16),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: aspectRatio,
+                  ),
+                  itemCount: onSaleProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = onSaleProducts[index];
+                    return ProductCard(
+                      newStock: product.newStock,
+                      imagePath: product.imagePath,
+                      productName: product.productName,
+                      price: product.price,
+                      isInStock: product.isInStock,
+                      availableStock: product.availableStock,
+                      salePercentage: product.salePercentage,
+                    );
+                  },
                 );
               },
             ),

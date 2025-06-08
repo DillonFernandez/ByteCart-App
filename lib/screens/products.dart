@@ -69,27 +69,35 @@ class ProductPage extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Product Grid Section
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.only(top: 0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                childAspectRatio: 0.75,
-              ),
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                final product = productList[index];
-                return ProductCard(
-                  newStock: product.newStock,
-                  imagePath: product.imagePath,
-                  productName: product.productName,
-                  price: product.price,
-                  isInStock: product.isInStock,
-                  availableStock: product.availableStock,
-                  salePercentage: product.salePercentage,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isLandscape =
+                    MediaQuery.of(context).orientation == Orientation.landscape;
+                // Use more columns in landscape
+                final crossAxisCount = isLandscape ? 4 : 2;
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  padding: const EdgeInsets.only(top: 0),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 16,
+                    childAspectRatio: isLandscape ? 0.85 : 0.75,
+                  ),
+                  itemCount: productList.length,
+                  itemBuilder: (context, index) {
+                    final product = productList[index];
+                    return ProductCard(
+                      newStock: product.newStock,
+                      imagePath: product.imagePath,
+                      productName: product.productName,
+                      price: product.price,
+                      isInStock: product.isInStock,
+                      availableStock: product.availableStock,
+                      salePercentage: product.salePercentage,
+                    );
+                  },
                 );
               },
             ),

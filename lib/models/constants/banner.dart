@@ -8,7 +8,6 @@ class BannerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90,
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 255, 0, 0),
         borderRadius: BorderRadius.circular(10),
