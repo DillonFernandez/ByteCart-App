@@ -57,7 +57,7 @@ class app_bar {
                         theme.brightness == Brightness.dark
                             ? const Color(0xFF121212)
                             : colorScheme.surface,
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(15.0),
                     border: Border.all(
                       color: colorScheme.outline.withOpacity(0.5),
                       width: 1,
