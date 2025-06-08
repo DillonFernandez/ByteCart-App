@@ -163,58 +163,65 @@ class _CartPageState extends State<CartPage> {
           return Stack(
             key: _stackKey,
             children: [
-              Container(
-                color: Theme.of(context).colorScheme.surface,
-                child: OrientationBuilder(
-                  builder: (context, orientation) {
-                    if (items.isEmpty) {
-                      return const Center(
-                        child: Text(
-                          'Your cart is empty.',
-                          style: TextStyle(fontSize: 18),
-                        ),
-                      );
-                    }
-                    // Efficient List/Grid for Large Data
-                    return orientation == Orientation.portrait
-                        ? ListView.separated(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 16,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Container(
+                  color: Theme.of(context).colorScheme.surface,
+                  child: OrientationBuilder(
+                    builder: (context, orientation) {
+                      if (items.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            'Your cart is empty.',
+                            style: TextStyle(fontSize: 18),
                           ),
-                          itemCount: items.length,
-                          separatorBuilder:
-                              (_, __) => const SizedBox(height: 10),
-                          itemBuilder: (_, index) {
-                            final item = items[index];
-                            final isOnSale =
-                                item['salePercentage'] != null &&
-                                item['salePercentage'] > 0;
-                            return _buildCartItem(item, index, isOnSale, items);
-                          },
-                        )
-                        : GridView.builder(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 16,
-                          ),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 3,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                              ),
-                          itemCount: items.length,
-                          itemBuilder: (_, index) {
-                            final item = items[index];
-                            final isOnSale =
-                                item['salePercentage'] != null &&
-                                item['salePercentage'] > 0;
-                            return _buildCartItem(item, index, isOnSale, items);
-                          },
                         );
-                  },
+                      }
+                      // Efficient List/Grid for Large Data
+                      return orientation == Orientation.portrait
+                          ? ListView.separated(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            itemCount: items.length,
+                            separatorBuilder:
+                                (_, __) => const SizedBox(height: 10),
+                            itemBuilder: (_, index) {
+                              final item = items[index];
+                              final isOnSale =
+                                  item['salePercentage'] != null &&
+                                  item['salePercentage'] > 0;
+                              return _buildCartItem(
+                                item,
+                                index,
+                                isOnSale,
+                                items,
+                              );
+                            },
+                          )
+                          : GridView.builder(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 3,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                ),
+                            itemCount: items.length,
+                            itemBuilder: (_, index) {
+                              final item = items[index];
+                              final isOnSale =
+                                  item['salePercentage'] != null &&
+                                  item['salePercentage'] > 0;
+                              return _buildCartItem(
+                                item,
+                                index,
+                                isOnSale,
+                                items,
+                              );
+                            },
+                          );
+                    },
+                  ),
                 ),
               ),
               if (items.isNotEmpty)
