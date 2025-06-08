@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 // Account Page Main Widget
 class AccountPage extends StatelessWidget {
   final User user;
+
   const AccountPage({super.key, required this.user});
 
   @override
@@ -259,6 +260,7 @@ class _ProfileCard extends StatelessWidget {
   final User user;
   final bool isDark;
   final bool isLandscape;
+
   const _ProfileCard({
     required this.user,
     required this.isDark,

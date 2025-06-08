@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
   final User user;
+
   const HomePage({super.key, required this.user});
 
   @override
@@ -142,6 +143,7 @@ class _CategoryCirclesRow extends StatelessWidget {
 class _BannerSection extends StatelessWidget {
   final String imagePath;
   final double topPadding;
+
   const _BannerSection({required this.imagePath, this.topPadding = 0});
 
   @override
@@ -161,6 +163,7 @@ class _BannerSection extends StatelessWidget {
 // Product Grid Section
 class _ProductGridSection extends StatelessWidget {
   final List products;
+
   const _ProductGridSection({required this.products});
 
   @override
