@@ -232,42 +232,42 @@ class AccountPage extends StatelessWidget {
         return Container(
           decoration: BoxDecoration(
             color: isDark ? const Color(0xFF121212) : Colors.white,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
             ],
           ),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(12),
             child: Material(
               color: Colors.transparent,
               child: InkWell(
                 onTap: onTap,
                 child: SizedBox(
-                  height: 60,
+                  height: 70,
                   child: Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const SizedBox(width: 12),
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor: color.withOpacity(0.2),
-                          child: Icon(icon, color: color, size: 24),
-                        ),
                         const SizedBox(width: 16),
+                        CircleAvatar(
+                          radius: 24,
+                          backgroundColor: color.withOpacity(0.2),
+                          child: Icon(icon, color: color, size: 28),
+                        ),
+                        const SizedBox(width: 20),
                         Expanded(
                           child: Text(
                             title,
                             style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
-                        const Icon(Icons.arrow_forward_ios, size: 18),
-                        const SizedBox(width: 12),
+                        const Icon(Icons.arrow_forward_ios, size: 20),
+                        const SizedBox(width: 16),
                       ],
                     ),
                   ),
@@ -306,7 +306,7 @@ class _ProfileCard extends StatelessWidget {
               isDark
                   ? const Color(0xFF121212)
                   : Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
           ],
@@ -316,22 +316,22 @@ class _ProfileCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               const CircleAvatar(
-                radius: 28,
+                radius: 32,
                 backgroundColor: Color(0xFF007BFF),
-                child: Icon(Icons.person, size: 28, color: Colors.white),
+                child: Icon(Icons.person, size: 32, color: Colors.white),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 10),
               Text(
                 user.fullName,
                 style: const TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 4),
+              const SizedBox(height: 6),
               Text(
                 user.email,
                 textAlign: TextAlign.center,
@@ -354,7 +354,7 @@ class _ProfileCard extends StatelessWidget {
             isDark
                 ? const Color(0xFF121212)
                 : Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 10),
         ],
@@ -362,9 +362,9 @@ class _ProfileCard extends StatelessWidget {
       child: Row(
         children: [
           const CircleAvatar(
-            radius: 40,
+            radius: 44,
             backgroundColor: Color(0xFF007BFF),
-            child: Icon(Icons.person, size: 40, color: Colors.white),
+            child: Icon(Icons.person, size: 44, color: Colors.white),
           ),
           const SizedBox(width: 16),
           Column(
@@ -373,7 +373,7 @@ class _ProfileCard extends StatelessWidget {
               Text(
                 user.fullName,
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
