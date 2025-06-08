@@ -56,12 +56,11 @@ third-party listings or advertisements.
 
 ## What We Sell
 
-- **Phones**
-- **Tablets**
-- **Smartwatches**
-- **Wireless Earbuds**
-- **Wireless Headphones**
-- **Wireless Portable Speakers**
-- **Gaming and Office/School Laptops**
-- **Gaming Accessories**
-- **Other General Accessories** (Cables, Power Banks, etc.)
+- **Audio & Headphones**
+- **Cameras & Photography**
+- **Computers & Laptops**
+- **Gaming & Entertainment**
+- **Home Appliances**
+- **Smart Home & Security**
+- **Smartphones & Accessories**
+- **Wearable Tech**
