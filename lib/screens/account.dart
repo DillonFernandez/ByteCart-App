@@ -25,11 +25,26 @@ class AccountPage extends StatelessWidget {
               children: [
                 // User Profile Section
                 Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 8),
-                  child: _ProfileCard(
-                    user: user,
-                    isDark: isDark,
-                    isLandscape: true,
+                  padding: const EdgeInsets.only(
+                    left: 16,
+                    right: 8,
+                    top: 16,
+                    bottom: 16,
+                  ),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight - 32,
+                      maxHeight: constraints.maxHeight - 32,
+                    ),
+                    child: SizedBox(
+                      width: 320,
+                      child: _ProfileCard(
+                        user: user,
+                        isDark: isDark,
+                        isLandscape: true,
+                        fullHeight: true,
+                      ),
+                    ),
                   ),
                 ),
                 // Account Content Section (Scrollable)
@@ -260,11 +275,13 @@ class _ProfileCard extends StatelessWidget {
   final User user;
   final bool isDark;
   final bool isLandscape;
+  final bool fullHeight;
 
   const _ProfileCard({
     required this.user,
     required this.isDark,
     required this.isLandscape,
+    this.fullHeight = false,
   });
 
   @override
@@ -272,7 +289,7 @@ class _ProfileCard extends StatelessWidget {
     if (isLandscape) {
       return Container(
         width: 320,
-        height: 180,
+        height: fullHeight ? double.infinity : 180,
         decoration: BoxDecoration(
           color:
               isDark
