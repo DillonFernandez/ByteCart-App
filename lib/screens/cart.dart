@@ -179,8 +179,8 @@ class _CartPageState extends State<CartPage> {
                     return orientation == Orientation.portrait
                         ? ListView.separated(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
+                            horizontal: 10,
+                            vertical: 16,
                           ),
                           itemCount: items.length,
                           separatorBuilder:
@@ -195,8 +195,8 @@ class _CartPageState extends State<CartPage> {
                         )
                         : GridView.builder(
                           padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 10,
+                            horizontal: 10,
+                            vertical: 16,
                           ),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
