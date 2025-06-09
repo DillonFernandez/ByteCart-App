@@ -334,7 +334,20 @@ class _RegisterPageState extends State<RegisterPage> {
                           maxWidth: 420,
                           minWidth: 320,
                         ),
-                        child: registerForm,
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 24),
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.10),
+                                blurRadius: 12,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          child: registerForm,
+                        ),
                       ),
                     ),
                   ),
